@@ -20,6 +20,16 @@ if (form) {
                 category: { title: category.toString() },
             });
             console.log(taskManager.tasks);
+            // cerate the task
+            var taskElement = document.createElement('div');
+            taskElement.className = "task ".concat(priority.toString().toLowerCase());
+            taskElement.innerHTML = "\n              <h3>".concat(title, " <span>\u2013 Priorit\u00E9 ").concat(Priority[priority.toString()], "</span></h3>\n              <p>Cat\u00E9gorie: ").concat(category, "</p>\n              <p>Date d'\u00E9ch\u00E9ance: ").concat(date, "</p>\n              <p>").concat(description, "</p>\n              <button type=\"button\">Supprimer</button>\n              <button class=\"edit-btn\">Modifier</button>\n            ");
+            var taskList = document.getElementById('tasks');
+            if (taskList) {
+                taskList.appendChild(taskElement);
+            }
+            // reset from after submit
+            form.reset();
         }
         else {
             alert('Veuillez remplir tous les champs');

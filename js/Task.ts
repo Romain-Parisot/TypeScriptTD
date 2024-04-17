@@ -2,9 +2,9 @@ import { Category } from "./Category.js";
 
 // Les trois option possible du chanmp priority
 export enum Priority {
-  Low = "Faible",
-  Medium = "Moyenne",
-  High = "Haute"
+  low = "Faible",
+  medium = "Moyenne",
+  high = "Haute"
 }
 
 // interface Task

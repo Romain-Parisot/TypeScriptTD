@@ -1,9 +1,9 @@
 // Les trois option possible du chanmp priority
 export var Priority;
 (function (Priority) {
-    Priority["Low"] = "Faible";
-    Priority["Medium"] = "Moyenne";
-    Priority["High"] = "Haute";
+    Priority["low"] = "Faible";
+    Priority["medium"] = "Moyenne";
+    Priority["high"] = "Haute";
 })(Priority || (Priority = {}));
 var TaskManager = /** @class */ (function () {
     function TaskManager() {

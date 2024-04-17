@@ -27,6 +27,26 @@ if (form) {
       });
 
       console.log(taskManager.tasks);
+            // cerate the task
+            const taskElement = document.createElement('div');
+            taskElement.className = `task ${priority.toString().toLowerCase()}`;
+            taskElement.innerHTML = `
+              <h3>${title} <span>– Priorité ${Priority[priority.toString() as keyof typeof Priority]}</span></h3>
+              <p>Catégorie: ${category}</p>
+              <p>Date d'échéance: ${date}</p>
+              <p>${description}</p>
+              <button type="button">Supprimer</button>
+              <button class="edit-btn">Modifier</button>
+            `;
+
+            const taskList = document.getElementById('tasks');
+            if (taskList) {
+              taskList.appendChild(taskElement);
+            }
+
+      // reset from after submit
+      (form as HTMLFormElement).reset();
+
     }
     else{
       alert('Veuillez remplir tous les champs');
