@@ -74,3 +74,27 @@ export function createFormDom(taskIndex) {
     var editFromSection = document.getElementById("editFrom");
     editFromSection === null || editFromSection === void 0 ? void 0 : editFromSection.appendChild(form);
 }
+export function renderTasks(taskManager) {
+    var taskList = document.getElementById("tasks");
+    if (taskList) {
+        taskManager.tasks.forEach(function (task, index) {
+            var taskElement = document.createElement("div");
+            var classPriority = "";
+            switch (task.priority.toLowerCase()) {
+                case "faible":
+                    classPriority = "low";
+                    break;
+                case "moyenne":
+                    classPriority = "medium";
+                    break;
+                case "haute":
+                    classPriority = "high";
+                    break;
+            }
+            taskElement.className = "task ".concat(classPriority);
+            taskElement.dataset.index = index.toString();
+            taskElement.innerHTML = "\n        <h3>".concat(task.title, " <span>\u2013 Priorit\u00E9 ").concat(task.priority, "</span></h3>\n        <p>Cat\u00E9gorie: ").concat(task.category.title, "</p>\n        <p>Date d'\u00E9ch\u00E9ance: ").concat(task.date, "</p>\n        <p>").concat(task.description, "</p>\n        <button class=\"delete-btn\" data-index=\"").concat(index, "\" type=\"button\">Supprimer</button>\n        <button class=\"edit-btn\" data-index=\"").concat(index, "\" type=\"button\">Modifier</button>\n      ");
+            taskList.appendChild(taskElement);
+        });
+    }
+}

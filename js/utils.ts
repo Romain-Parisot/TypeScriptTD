@@ -96,3 +96,36 @@ export function createFormDom(taskIndex: number) {
 
   editFromSection?.appendChild(form);
 }
+
+export function renderTasks(taskManager: TaskManager) {
+  const taskList = document.getElementById("tasks");
+  if (taskList) {
+    taskManager.tasks.forEach((task, index) => {
+      const taskElement = document.createElement("div");
+      let classPriority: string = "";
+      switch (task.priority.toLowerCase()) {
+        case "faible":
+          classPriority = "low";
+          break;
+        case "moyenne":
+          classPriority = "medium";
+          break;
+        case "haute":
+          classPriority = "high";
+          break;
+      }
+      taskElement.className = `task ${classPriority}`;
+      taskElement.dataset.index = index.toString();
+      taskElement.innerHTML = `
+        <h3>${task.title} <span>– Priorité ${task.priority}</span></h3>
+        <p>Catégorie: ${task.category.title}</p>
+        <p>Date d'échéance: ${task.date}</p>
+        <p>${task.description}</p>
+        <button class="delete-btn" data-index="${index}" type="button">Supprimer</button>
+        <button class="edit-btn" data-index="${index}" type="button">Modifier</button>
+      `;
+
+      taskList.appendChild(taskElement);
+    });
+  }
+}

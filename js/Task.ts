@@ -24,7 +24,11 @@ interface TaskManagerInterface {
 }
 
 class TaskManager implements TaskManagerInterface {
-  public tasks: Task[] = [];
+  public tasks: Task[];
+
+  constructor(initialTasks?: Task[]) {
+    this.tasks = initialTasks ? initialTasks : [];
+  }
 
   addTask(task: Task): void {
     this.tasks.push(task);

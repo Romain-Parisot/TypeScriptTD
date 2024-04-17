@@ -1,6 +1,18 @@
-import { updateTaskElement, createFormDom } from "./utils.js";
+import { updateTaskElement, createFormDom, renderTasks } from "./utils.js";
 import TaskManager, { Priority, Task } from "./Task.js";
-const taskManager = new TaskManager();
+
+// get data from local storage
+const savedTasks = localStorage.getItem("taskList");
+const storedTaskList = savedTasks ? JSON.parse(savedTasks) : [];
+console.log("Loaded tasks:", storedTaskList); // Debugging line
+
+const taskManager = new TaskManager(storedTaskList);
+console.log("Initialized taskManager:", taskManager); // Debugging line
+renderTasks(taskManager);
+
+function saveTasks() {
+  localStorage.setItem("taskList", JSON.stringify(taskManager.tasks));
+}
 
 // Add a new task
 
@@ -28,6 +40,7 @@ if (form) {
         priority: Priority[priority.toString() as keyof typeof Priority],
         category: { title: category.toString() },
       });
+      saveTasks();
 
       console.log(taskManager.tasks);
       // cerate the task
@@ -72,6 +85,7 @@ if (taskList) {
       const taskIndex = Number(target.dataset.index);
       // call deleteTask
       taskManager.deleteTask(taskIndex);
+      saveTasks();
       // remove from dom
       if (target.parentElement) {
         taskList.removeChild(target.parentElement);
@@ -93,7 +107,7 @@ if (taskList) {
         const target = event.target as HTMLElement;
         if (target && target.id.match("addTask")) {
           const editTaskForm = document.getElementById(
-            "editTaskForm",
+            "editTaskForm"
           ) as HTMLFormElement;
           const formData = new FormData(editTaskForm);
 
@@ -116,9 +130,10 @@ if (taskList) {
 
               // call modifyTask
               taskManager.modifyTask(editedTask, taskIndex);
+              saveTasks();
               // update dom
               const taskElement = document.querySelector(
-                `.task[data-index="${taskIndex}"]`,
+                `.task[data-index="${taskIndex}"]`
               ) as HTMLElement;
               updateTaskElement(editedTask, taskElement);
             } else {
@@ -139,10 +154,6 @@ if (taskList) {
     }
   });
 }
-
-
-
-
 
 /// CRUD
 

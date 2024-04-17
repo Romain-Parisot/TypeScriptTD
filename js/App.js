@@ -1,6 +1,15 @@
-import { updateTaskElement, createFormDom } from "./utils.js";
+import { updateTaskElement, createFormDom, renderTasks } from "./utils.js";
 import TaskManager, { Priority } from "./Task.js";
-var taskManager = new TaskManager();
+// get data from local storage
+var savedTasks = localStorage.getItem("taskList");
+var storedTaskList = savedTasks ? JSON.parse(savedTasks) : [];
+console.log("Loaded tasks:", storedTaskList); // Debugging line
+var taskManager = new TaskManager(storedTaskList);
+console.log("Initialized taskManager:", taskManager); // Debugging line
+renderTasks(taskManager);
+function saveTasks() {
+    localStorage.setItem("taskList", JSON.stringify(taskManager.tasks));
+}
 // Add a new task
 var form = document.querySelector("#taskForm");
 if (form) {
@@ -22,6 +31,7 @@ if (form) {
                 priority: Priority[priority.toString()],
                 category: { title: category.toString() },
             });
+            saveTasks();
             console.log(taskManager.tasks);
             // cerate the task
             var taskElement = document.createElement("div");
@@ -52,6 +62,7 @@ if (taskList) {
             var taskIndex = Number(target.dataset.index);
             // call deleteTask
             taskManager.deleteTask(taskIndex);
+            saveTasks();
             // remove from dom
             if (target.parentElement) {
                 taskList.removeChild(target.parentElement);
@@ -87,6 +98,7 @@ if (taskList) {
                             };
                             // call modifyTask
                             taskManager.modifyTask(editedTask, taskIndex_1);
+                            saveTasks();
                             // update dom
                             var taskElement = document.querySelector(".task[data-index=\"".concat(taskIndex_1, "\"]"));
                             updateTaskElement(editedTask, taskElement);
