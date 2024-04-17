@@ -4,11 +4,11 @@ import { Category } from "./Category.js";
 export enum Priority {
   low = "Faible",
   medium = "Moyenne",
-  high = "Haute"
+  high = "Haute",
 }
 
 // interface Task
-interface Task {
+export interface Task {
   title: string;
   description: string;
   date: string;
@@ -20,7 +20,7 @@ interface Task {
 interface TaskManagerInterface {
   addTask(task: Task): void;
   deleteTask(taskIndex: number): void;
-  modifyTask(taskIndex: number): void;
+  modifyTask(task: Task, taskIndex: number): void;
 }
 
 class TaskManager implements TaskManagerInterface {
@@ -34,10 +34,9 @@ class TaskManager implements TaskManagerInterface {
     this.tasks.splice(taskIndex, 1);
   }
 
-  modifyTask(taskIndex: number): void {
-    this.tasks[taskIndex].title = "New title";
+  modifyTask(task: Task, taskIndex: number): void {
+    this.tasks[taskIndex] = task;
   }
 }
 
 export default TaskManager;
-

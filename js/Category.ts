@@ -3,11 +3,7 @@ export interface Category {
 }
 
 class CategoryManager {
-
-  constructor() {
-      
-  }
-
+  constructor() {}
 }
 
 export default CategoryManager;
