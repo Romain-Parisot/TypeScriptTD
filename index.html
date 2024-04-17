@@ -22,15 +22,16 @@
         <section id="task-creation">
             <h2>Ajouter une Tâche</h2>
             <form id="taskForm">
-                <input type="text" id="taskTitle" placeholder="Titre de la tâche" required>
-                <textarea id="taskDescription" placeholder="Description de la tâche"></textarea>
-                <input type="date" id="taskDueDate">
-                <select id="taskPriority">
+                <input name="title" type="text" id="taskTitle" placeholder="Titre de la tâche" required>
+                <textarea name="description" id="taskDescription" placeholder="Description de la tâche"></textarea>
+                <input name="date" type="date" id="taskDueDate">
+                <select name="priority" id="taskPriority">
                     <option value="low">Faible</option>
                     <option value="medium" selected>Moyenne</option>
                     <option value="high">Haute</option>
                 </select>
-                <button type="submit">Ajouter Tâche</button>
+                <input name="category" type="text" id="taskCategory" placeholder="Nom de la Categorie">
+                <button type="submit" id="addTask">Ajouter Tâche</button>
             </form>
         </section>
         <section id="task-filter">
@@ -54,7 +55,6 @@
         <section id="task-list">
             <h2>Liste des Tâches</h2>
             <div id="tasks">
-
                 <div id="tasks">
                     <div class="task high">
                         <h3>Titre de la Tâche 1 <span>– Priorité Haute</span></h3>
@@ -85,7 +85,9 @@
     <footer>
         <p>&copy; 2024 Application de Gestion de Tâches</p>
     </footer>
-    <script src="compiled/taskApp.js"></script>
+    <script src="js/App.js" type="module"></script>
+    <script src="js/Task.js" type="module"></script>
+
 </body>
 
 </html>
