@@ -1,4 +1,4 @@
-import { updateTaskElement, createFormDom, renderTasks } from "./utils.js";
+import { updateTaskElement, createFormDom, renderTasks, deleteAllTasks } from "./utils.js";
 import TaskManager, { Priority, Task } from "./Task.js";
 
 // get data from local storage
@@ -21,7 +21,6 @@ const form = document.querySelector("#taskForm");
 if (form) {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    console.log("submit");
 
     const formData = new FormData(form as HTMLFormElement);
 
@@ -154,6 +153,48 @@ if (taskList) {
     }
   });
 }
+
+// Filters 
+
+const filterForm = document.querySelector("#filterForm");
+
+// Add an event listener to the button
+filterForm!.addEventListener("submit", (event) => {
+  event.preventDefault();
+  
+  const formData = new FormData(filterForm as HTMLFormElement);
+
+  const priority = formData.get("filterPriority");
+  const date = formData.get("filterDate");
+  const category = formData.get("filterCaregory");
+
+  // call filterTasks
+  let priorityFilterValue = "";
+switch (priority?.toString()) {
+  case "low":
+    priorityFilterValue = "Faible";
+    break;
+  case "medium":
+    priorityFilterValue = "Moyenne";
+    break;
+  case "high":
+    priorityFilterValue = "Haute";
+    break;
+  default:
+    priorityFilterValue = "all";
+    break;
+}
+  console.log("Filter", priorityFilterValue, date?.toString(), category?.toString());
+  
+  const filteredTasks = taskManager.filterTasks(priorityFilterValue, date!.toString(), category!.toString());
+  console.log("Filtered Tasks", filteredTasks);
+
+  const taskManagerFiltered = new TaskManager(filteredTasks);
+
+  // update the dom
+  deleteAllTasks()
+  renderTasks(taskManagerFiltered);
+});
 
 /// CRUD
 

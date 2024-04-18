@@ -18,6 +18,13 @@ var TaskManager = /** @class */ (function () {
     TaskManager.prototype.modifyTask = function (task, taskIndex) {
         this.tasks[taskIndex] = task;
     };
+    TaskManager.prototype.filterTasks = function (priority, date, category) {
+        return this.tasks.filter(function (task) {
+            return (priority === 'all' || task.priority === priority) &&
+                (!date || task.date === date) &&
+                (!category || task.category.title === category);
+        });
+    };
     return TaskManager;
 }());
 export default TaskManager;

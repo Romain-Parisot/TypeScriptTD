@@ -87,6 +87,12 @@ export function createFormDom(taskIndex) {
     var editFromSection = document.getElementById("editFrom");
     editFromSection === null || editFromSection === void 0 ? void 0 : editFromSection.appendChild(form);
 }
+export function deleteAllTasks() {
+    var taskList = document.getElementById("tasks");
+    if (taskList) {
+        taskList.innerHTML = "";
+    }
+}
 export function renderTasks(taskManager) {
     var taskList = document.getElementById("tasks");
     if (taskList) {

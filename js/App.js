@@ -1,4 +1,4 @@
-import { updateTaskElement, createFormDom, renderTasks } from "./utils.js";
+import { updateTaskElement, createFormDom, renderTasks, deleteAllTasks } from "./utils.js";
 import TaskManager, { Priority } from "./Task.js";
 // get data from local storage
 var savedTasks = localStorage.getItem("taskList");
@@ -15,7 +15,6 @@ var form = document.querySelector("#taskForm");
 if (form) {
     form.addEventListener("submit", function (event) {
         event.preventDefault();
-        console.log("submit");
         var formData = new FormData(form);
         var title = formData.get("title");
         var description = formData.get("description");
@@ -119,6 +118,39 @@ if (taskList) {
         }
     });
 }
+// Filters 
+var filterForm = document.querySelector("#filterForm");
+// Add an event listener to the button
+filterForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var formData = new FormData(filterForm);
+    var priority = formData.get("filterPriority");
+    var date = formData.get("filterDate");
+    var category = formData.get("filterCaregory");
+    // call filterTasks
+    var priorityFilterValue = "";
+    switch (priority === null || priority === void 0 ? void 0 : priority.toString()) {
+        case "low":
+            priorityFilterValue = "Faible";
+            break;
+        case "medium":
+            priorityFilterValue = "Moyenne";
+            break;
+        case "high":
+            priorityFilterValue = "Haute";
+            break;
+        default:
+            priorityFilterValue = "all";
+            break;
+    }
+    console.log("Filter", priorityFilterValue, date === null || date === void 0 ? void 0 : date.toString(), category === null || category === void 0 ? void 0 : category.toString());
+    var filteredTasks = taskManager.filterTasks(priorityFilterValue, date.toString(), category.toString());
+    console.log("Filtered Tasks", filteredTasks);
+    var taskManagerFiltered = new TaskManager(filteredTasks);
+    // update the dom
+    deleteAllTasks();
+    renderTasks(taskManagerFiltered);
+});
 /// CRUD
 // ON PAGE LOAD RÉCUPÉRER TOUTES LES TACHES DANS LE LOCALSTORAGE
 // CAPTER L'ÉVÉNEMENT AJOUTER UNE TACHE

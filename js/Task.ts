@@ -41,6 +41,15 @@ class TaskManager implements TaskManagerInterface {
   modifyTask(task: Task, taskIndex: number): void {
     this.tasks[taskIndex] = task;
   }
+
+  filterTasks(priority: string, date: string, category: string): Task[] {
+        return this.tasks.filter(task => {
+            return (priority === 'all' || task.priority === priority) &&
+              (!date || task.date === date) &&
+              (!category || task.category.title === category);
+              
+        });
+    }
 }
 
 export default TaskManager;
