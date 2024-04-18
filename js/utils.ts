@@ -1,5 +1,7 @@
 import TaskManager, { Task } from "./Task.js";
-const taskManager = new TaskManager();
+const savedTasks = localStorage.getItem("taskList");
+const storedTaskList = savedTasks ? JSON.parse(savedTasks) : [];
+const taskManager = new TaskManager(storedTaskList);
 
 export function updateTaskElement(task: Task, taskElement: HTMLElement) {
   taskElement.innerHTML = `
@@ -25,7 +27,11 @@ export function createFormDom(taskIndex: number) {
   title.id = "taskTitle";
   title.placeholder = "Titre de la tâche";
   title.required = true;
-  title.value = taskManager.tasks[taskIndex].title;
+  console.log(taskManager.tasks);
+  
+  if (taskManager && taskManager.tasks && taskManager.tasks[taskIndex]) {
+    title.value = taskManager.tasks[taskIndex].title;
+  }
   form.appendChild(title);
 
   // description
@@ -34,7 +40,9 @@ export function createFormDom(taskIndex: number) {
   title.type = "text";
   description.id = "taskDescription";
   description.placeholder = "Description de la tâche";
-  description.value = taskManager.tasks[taskIndex].description;
+  if (taskManager && taskManager.tasks && taskManager.tasks[taskIndex]) {
+    description.value = taskManager.tasks[taskIndex].description;
+  }
   form.appendChild(description);
 
   // date
@@ -42,14 +50,19 @@ export function createFormDom(taskIndex: number) {
   date.name = "date";
   date.type = "date";
   date.id = "taskDueDate";
-  date.value = taskManager.tasks[taskIndex].date;
+  if (taskManager && taskManager.tasks && taskManager.tasks[taskIndex]) {
+    date.value = taskManager.tasks[taskIndex].date;
+  }
   form.appendChild(date);
 
   // priority
   let priority = document.createElement("select");
   priority.name = "priority";
   priority.id = "taskPriority";
-  priority.value = taskManager.tasks[taskIndex].priority;
+  if (taskManager && taskManager.tasks && taskManager.tasks[taskIndex]) {
+    priority.value = taskManager.tasks[taskIndex].priority;
+  }
+
 
   let optionLow = document.createElement("option");
   optionLow.value = "low";
@@ -75,7 +88,9 @@ export function createFormDom(taskIndex: number) {
   category.type = "text";
   category.id = "taskCategory";
   category.placeholder = "Nom de la Categorie";
-  category.value = taskManager.tasks[taskIndex].category.title;
+  if (taskManager && taskManager.tasks && taskManager.tasks[taskIndex]) {
+    category.value = taskManager.tasks[taskIndex].category.title;
+  }
   form.appendChild(category);
 
   // submit button

@@ -1,5 +1,7 @@
 import TaskManager from "./Task.js";
-var taskManager = new TaskManager();
+var savedTasks = localStorage.getItem("taskList");
+var storedTaskList = savedTasks ? JSON.parse(savedTasks) : [];
+var taskManager = new TaskManager(storedTaskList);
 export function updateTaskElement(task, taskElement) {
     taskElement.innerHTML = "\n    <h3>".concat(task.title, " <span>\u2013 Priorit\u00E9 ").concat(task.priority, "</span></h3>\n    <p>Cat\u00E9gorie: ").concat(task.category.title, "</p>\n    <p>Date d'\u00E9ch\u00E9ance: ").concat(task.date, "</p>\n    <p>").concat(task.description, "</p>\n    <button type=\"button\" data-index=\"").concat(taskManager.tasks.indexOf(task), "\" class=\"delete-btn\">Supprimer</button>\n    <button type=\"button\" data-index=\"").concat(taskManager.tasks.indexOf(task), "\" class=\"edit-btn\">Modifier</button>\n  ");
 }
@@ -15,7 +17,10 @@ export function createFormDom(taskIndex) {
     title.id = "taskTitle";
     title.placeholder = "Titre de la tâche";
     title.required = true;
-    title.value = taskManager.tasks[taskIndex].title;
+    console.log(taskManager.tasks);
+    if (taskManager && taskManager.tasks && taskManager.tasks[taskIndex]) {
+        title.value = taskManager.tasks[taskIndex].title;
+    }
     form.appendChild(title);
     // description
     var description = document.createElement("textarea");
@@ -23,20 +28,26 @@ export function createFormDom(taskIndex) {
     title.type = "text";
     description.id = "taskDescription";
     description.placeholder = "Description de la tâche";
-    description.value = taskManager.tasks[taskIndex].description;
+    if (taskManager && taskManager.tasks && taskManager.tasks[taskIndex]) {
+        description.value = taskManager.tasks[taskIndex].description;
+    }
     form.appendChild(description);
     // date
     var date = document.createElement("input");
     date.name = "date";
     date.type = "date";
     date.id = "taskDueDate";
-    date.value = taskManager.tasks[taskIndex].date;
+    if (taskManager && taskManager.tasks && taskManager.tasks[taskIndex]) {
+        date.value = taskManager.tasks[taskIndex].date;
+    }
     form.appendChild(date);
     // priority
     var priority = document.createElement("select");
     priority.name = "priority";
     priority.id = "taskPriority";
-    priority.value = taskManager.tasks[taskIndex].priority;
+    if (taskManager && taskManager.tasks && taskManager.tasks[taskIndex]) {
+        priority.value = taskManager.tasks[taskIndex].priority;
+    }
     var optionLow = document.createElement("option");
     optionLow.value = "low";
     optionLow.textContent = "Faible";
@@ -57,7 +68,9 @@ export function createFormDom(taskIndex) {
     category.type = "text";
     category.id = "taskCategory";
     category.placeholder = "Nom de la Categorie";
-    category.value = taskManager.tasks[taskIndex].category.title;
+    if (taskManager && taskManager.tasks && taskManager.tasks[taskIndex]) {
+        category.value = taskManager.tasks[taskIndex].category.title;
+    }
     form.appendChild(category);
     // submit button
     var submit = document.createElement("button");
