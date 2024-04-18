@@ -196,16 +196,23 @@ switch (priority?.toString()) {
   renderTasks(taskManagerFiltered);
 });
 
-/// CRUD
+// rechercher une tâche
+const searchForm = document.querySelector("#taskSearch");
 
-// ON PAGE LOAD RÉCUPÉRER TOUTES LES TACHES DANS LE LOCALSTORAGE
+searchForm!.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(searchForm as HTMLFormElement);
+  const search = formData.get("searchInput");
 
-// CAPTER L'ÉVÉNEMENT AJOUTER UNE TACHE
+  if (search) {
+    const filteredTasks = taskManager.tasks.filter(task => {
+      return task.title.match(search.toString()) || task.description.match(search.toString());
+    });
 
-// CAPTER L'ÉVENEMENT JE MODIFIE UNE TACHE
+    const taskManagerFiltered = new TaskManager(filteredTasks);
+    deleteAllTasks();
+    renderTasks(taskManagerFiltered);
+  }
 
-// CAPTER L'ÉVÉNEMENT JE SUPPRIME UNE TACHE
-
-// J'APPLIQUE UN FILTRE
-
-// JE FAIS UNE RECHERCHE
+  
+})

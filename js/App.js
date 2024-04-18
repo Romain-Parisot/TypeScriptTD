@@ -151,10 +151,18 @@ filterForm.addEventListener("submit", function (event) {
     deleteAllTasks();
     renderTasks(taskManagerFiltered);
 });
-/// CRUD
-// ON PAGE LOAD RÉCUPÉRER TOUTES LES TACHES DANS LE LOCALSTORAGE
-// CAPTER L'ÉVÉNEMENT AJOUTER UNE TACHE
-// CAPTER L'ÉVENEMENT JE MODIFIE UNE TACHE
-// CAPTER L'ÉVÉNEMENT JE SUPPRIME UNE TACHE
-// J'APPLIQUE UN FILTRE
-// JE FAIS UNE RECHERCHE
+// rechercher une tâche
+var searchForm = document.querySelector("#taskSearch");
+searchForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var formData = new FormData(searchForm);
+    var search = formData.get("searchInput");
+    if (search) {
+        var filteredTasks = taskManager.tasks.filter(function (task) {
+            return task.title.match(search.toString()) || task.description.match(search.toString());
+        });
+        var taskManagerFiltered = new TaskManager(filteredTasks);
+        deleteAllTasks();
+        renderTasks(taskManagerFiltered);
+    }
+});
